@@ -7,10 +7,10 @@ var todoSchema = new Mongoose.Schema({
     done: { type: Boolean, default: false },
     prev: { type: [String], default: [] },
     deadline: { type: Date },
-    created_at: { type: Date , required: true},
-    updated_at: { type: Date , required: true},
-    priority : { type: Number , default: 0},
-    urgency : { type: Number , default: 0}
+    created_at: { type: Date, required: true },
+    updated_at: { type: Date, required: true },
+    priority: { type: Number, default: 0 },
+    urgency: { type: Number, default: 0 }
 });
 
 todoSchema.virtual('alias').get(function () {
@@ -60,7 +60,7 @@ var createTodo = function (newTodo, callback) {
 }
 
 var updateTodo = function (id, newTodo, callback) {
-    newTodo.prev = Util.checkVertex(newTodo.prev, Todo.buffer, newTodo.id);
+    newTodo.prev = Util.checkVertex((newTodo.prev || []), Todo.buffer, newTodo.id);
     newTodo.updated_at = new Date();
     Todo.model.update({ _id: id },
         newTodo, function (err, todo) {

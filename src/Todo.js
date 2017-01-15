@@ -33,7 +33,7 @@ class TodoCheck extends Component {
     render() {
         return <td className="TodoCheck" onClick={this.handleCheck}
             onMouseEnter={this.handleMouseEnter}
-            onMouseLeave={this.handleMouseLeave}><i className={"fa fa-" + (this.state.check ? "check-" : "") + "square-o"}></i></td>;
+            onMouseLeave={this.handleMouseLeave}><i className={"fa fa-fw " + (this.state.check ? "fa-check-circle-o" : "fa-circle-o")}></i></td>;
     }
 }
 
@@ -78,7 +78,7 @@ class TodoDelete extends Component {
     }
     render() {
         return (
-            <td className="TodoDelete" onClick={this.handleDelete}><i className="fa fa-trash-o"></i></td>
+            <td className="TodoDelete" onClick={this.handleDelete}><i className="fa fa-fw fa-trash-o"></i></td>
         );
     }
 }
