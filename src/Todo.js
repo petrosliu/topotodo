@@ -183,11 +183,19 @@ class TodoForm extends Component {
         }
 
         this.state = state;
+        this.clearForm = this.clearForm.bind(this);
         this.onChangeText = this.onChangeText.bind(this);
         this.onChangePrev = this.onChangePrev.bind(this);
         this.onChangeDeadline = this.onChangeDeadline.bind(this);
         this.handleReset = this.handleReset.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    clearForm() {
+        var state = this.state;
+        state.form.text = "";
+        state.form.prev = "";
+        state.form.dealline = "";
+        this.setState(state);
     }
     onChangeText(e) {
         e.preventDefault();
@@ -209,30 +217,17 @@ class TodoForm extends Component {
     }
     handleReset(e) {
         e.preventDefault();
-        var state = this.state;
-        state.form.text = "";
-        state.form.prev = "";
-        state.form.dealline = "";
-        this.setState(state);
+        this.clearForm();
     }
     handleSubmit(e) {
+        e.preventDefault();
         var state = this.state;
         var GetTodos = this.props.getTodos;
-        $.ajax({
-            type: 'POST',
-            url: '/api/todos',
-            data: state.form
-        })
+        var ClearForm = this.clearForm;
+        $.post('api/todos/', state.form)
             .done(function (data) {
-                var state = this.state;
-                state.form.text = "";
-                state.form.prev = "";
-                state.form.dealline = "";
-                this.setState(state);
+                ClearForm();
                 GetTodos(data);
-            })
-            .fail(function (jqXhr) {
-                console.log('failed to register');
             });
     }
     render() {
@@ -241,7 +236,7 @@ class TodoForm extends Component {
             <Row>
                 <Col sm={3}></Col>
                 <Col sm={6} className="TodoForm">
-                    <Form horizontal>
+                    <Form horizontal onSubmit={this.handleSubmit}>
                         <FormGroup>
                             <FormControl type="text" placeholder="Todo" onChange={this.onChangeText} value={this.state.form.text} />
                         </FormGroup>
