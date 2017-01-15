@@ -4,9 +4,6 @@
   "description": "Simple todo application.",
   "main": "server.js",
   "author": "Petrosliu",
-  "devDependencies": {
-    "react-scripts": "0.8.4"
-  },
   "dependencies": {
     "body-parser": "^1.4.3",
     "express": "^4.13.4",
@@ -19,7 +16,8 @@
     "react-bootstrap": "^0.30.7",
     "react-bootstrap-date-picker": "^4.0.0",
     "react-bootstrap-multiselect": "^2.3.0",
-    "react-dom": "^15.4.1"
+    "react-dom": "^15.4.1",
+    "react-scripts": "^0.8.4"
   },
   "scripts": {
     "start": "node server.js",
