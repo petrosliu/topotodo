@@ -9,7 +9,8 @@ var routes = function (app) {
     app.post('/api/todos', function (req, res) {
         Todo.create({
             text: req.body.text,
-            prev: (req.body.prev ? req.body.prev.split(/[^0-9a-z]+/) : [])
+            prev: (req.body.prev ? req.body.prev.split(/[^0-9a-z]+/) : []),
+            deadline: req.body.deadline
         }, Util.callback(res));
     });
 
@@ -18,6 +19,7 @@ var routes = function (app) {
     });
 
     app.post('/api/todos/:id', function (req, res) {
+        req.body.prev = req.body.prev ? req.body.prev.split(/[^0-9a-z]+/) : [];
         Todo.update(req.params.id, req.body, Util.callback(res));
     });
 

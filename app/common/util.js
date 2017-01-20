@@ -1,5 +1,5 @@
-var alias = function(id){
-    return id?id.substring(id.length - 6):null;
+var alias = function (id) {
+    return id ? id.substring(id.length - 6) : null;
 }
 
 var checkVertex = function (prev, buffer, id) {
@@ -15,7 +15,7 @@ var checkVertex = function (prev, buffer, id) {
         if (repeated) continue;
         for (var j = 0; j < buffer.length; j++) {
             if (buffer[j].alias == alias(prev[i])) {
-                if(alias(id) !== alias(prev[i])){
+                if (alias(id) !== alias(prev[i])) {
                     newPrev.push(buffer[j].id);
                 }
                 break;
@@ -26,11 +26,11 @@ var checkVertex = function (prev, buffer, id) {
 }
 
 var callback = function (res) {
-    if(res) return function (err, ret) {
+    if (res) return function (err, ret) {
         if (err) res.send(err);
         else res.json(ret);
     }
-    return function(){};
+    return function () { };
 }
 
 module.exports.alias = alias;

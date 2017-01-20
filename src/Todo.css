@@ -16,14 +16,17 @@
     background: #5bc0de;
 }
 
-.TodoTask .TodoCheck{
+.TodoTask .TodoCheck,
+.TodoTask .TodoDelete,
+.TodoTask .TodoEdit{
     vertical-align: middle;
     text-align: center;
     width: 50px;
     font-size: 16px;
 }
 
-.TodoTask .TodoAlias{
+.TodoTask .TodoAlias,
+.TodoTask .TodoPrev{
     vertical-align: middle;
     text-align: center;
     width: 50px;

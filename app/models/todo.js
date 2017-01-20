@@ -16,6 +16,9 @@ var todoSchema = new Mongoose.Schema({
 todoSchema.virtual('alias').get(function () {
     return Util.alias(this.id);
 });
+todoSchema.virtual('prevAlias').get(function () {
+    return this.prev.map((id) => Util.alias(id));
+});
 
 todoSchema.set('toObject', {
     virtuals: true

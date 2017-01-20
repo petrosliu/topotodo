@@ -18,18 +18,19 @@ var topo = function (todoList) {
             priority[todo.id] = 1;
         }
     });
-
+    var maxPriority = 1;
     while (heads.length) {
         var curr = heads.pop();
         nextVertex[curr].forEach(function (nextId) {
             prevVertex[nextId]--;
             if (prevVertex[nextId] == 0) heads.unshift(nextId);
-            priority[nextId] = Math.max(priority[nextId], priority[curr] + 1);
+            priority[nextId] = Math.max(priority[nextId], priority[curr] + (todoMap[curr].done ? 0 : 1));
+            maxPriority = Math.max(maxPriority, priority[nextId]);
         });
     }
 
     todoList.forEach(function (todo) {
-        todo.priority = priority[todo.id];
+        todo.priority = todo.done ? maxPriority : priority[todo.id];
     });
 
     todoList.sort(function (l, r) {

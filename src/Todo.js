@@ -83,6 +83,33 @@ class TodoDelete extends Component {
     }
 }
 
+class TodoEdit extends Component {
+    constructor(props) {
+        super(props);
+        this.handleEdit = this.handleEdit.bind(this);
+    }
+    handleEdit() {
+        this.props.editTodo(this.props.todo);
+    }
+    render() {
+        return (
+            <td className="TodoEdit" onClick={this.handleEdit}><i className="fa fa-fw fa-code-fork"></i></td>
+        );
+    }
+}
+
+class TodoPrev extends Component {
+    render() {
+        return (
+            <td className="TodoPrev">
+                {this.props.prev.map((p) =>
+                    <Label bsStyle={"primary"}>{p}</Label>
+                )}
+            </td>
+        );
+    }
+}
+
 class TodoTask extends Component {
     constructor(props) {
         super(props);
@@ -109,6 +136,8 @@ class TodoTask extends Component {
                     <TodoAlias done={todo.done} alias={todo.alias} todo={todo} />
                     <TodoText text={todo.text} todo={todo} />
                     <TodoDeadline deadline={todo.deadline} todo={todo} />
+                    <TodoPrev prev={todo.prevAlias} todo={todo} />
+                    <TodoEdit editTodo={this.props.editTodo} todo={todo} />
                     <TodoDelete getTodos={this.props.getTodos} id={todo.id} todo={todo} />
                     <td>
                         <span>...</span>
@@ -132,7 +161,7 @@ class TodoTable extends Component {
                     <Table hover striped>
                         <tbody>
                             {this.props.todos.map((todo) =>
-                                <TodoTask getTodos={this.props.getTodos} todo={todo} />
+                                <TodoTask getTodos={this.props.getTodos} editTodo={this.props.editTodo} todo={todo} />
                             )}
                         </tbody>
                     </Table>
@@ -160,7 +189,7 @@ class TodoList extends Component {
                 <Col sm={1}></Col>
                 <Col sm={10} className="TodoList">
                     {todoPriority.map((p) =>
-                        <TodoTable getTodos={this.props.getTodos} todos={todoTables[p]} priority={p} />
+                        <TodoTable getTodos={this.props.getTodos} editTodo={this.props.editTodo} todos={todoTables[p]} priority={p} />
                     )}
                 </Col>
             </Row>
@@ -172,14 +201,12 @@ class TodoForm extends Component {
     constructor(props) {
         super(props);
         var state = {
-            form: {},
-            todo: this.props.todo || null,
-            dropdown: []
+            form: {}
         }
-        if (state.todo) {
-            state.form.text = state.todo.text;
-            state.form.prev = state.todo.prev.join(',');
-            state.form.dealline = state.todo.dealline;
+        if (this.props.todo) {
+            state.form.text = this.props.todo.text;
+            state.form.prev = this.props.todo.prev.join(',');
+            state.form.dealline = this.props.todo.dealline;
         }
 
         this.state = state;
@@ -190,11 +217,23 @@ class TodoForm extends Component {
         this.handleReset = this.handleReset.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+    componentWillReceiveProps(nextprops) {
+        var state = {
+            form: {}
+        }
+        if (nextprops.todo) {
+            state.form.text = nextprops.todo.text;
+            state.form.prev = nextprops.todo.prevAlias.join(',');
+            state.form.dealline = nextprops.todo.dealline;
+        }
+        this.setState(state);
+    }
     clearForm() {
         var state = this.state;
         state.form.text = "";
         state.form.prev = "";
         state.form.dealline = "";
+        state.todo = null;
         this.setState(state);
     }
     onChangeText(e) {
@@ -209,10 +248,9 @@ class TodoForm extends Component {
         state.form.prev = e.target.value;
         this.setState(state);
     }
-    onChangeDeadline(e) {
-        e.preventDefault();
+    onChangeDeadline(value) {
         var state = this.state;
-        state.form.deadline = e.target.value;
+        state.form.deadline = value;
         this.setState(state);
     }
     handleReset(e) {
@@ -221,17 +259,27 @@ class TodoForm extends Component {
     }
     handleSubmit(e) {
         e.preventDefault();
-        var state = this.state;
+        var form = this.state.form;
         var GetTodos = this.props.getTodos;
         var ClearForm = this.clearForm;
-        $.post('api/todos/', state.form)
-            .done(function (data) {
-                ClearForm();
-                GetTodos(data);
-            });
+        if (this.props.todo && this.props.todo.id) {
+            $.post('api/todos/' + this.props.todo.id, form)
+                .done(function (data) {
+                    ClearForm();
+                    GetTodos(data);
+                });
+
+        } else {
+            $.post('api/todos/', form)
+                .done(function (data) {
+                    ClearForm();
+                    GetTodos(data);
+                });
+        }
     }
     render() {
-        var buttonText = this.state.todo ? "Update" : "Submit";
+        var todo = this.props.todo;
+        var buttonText = todo ? "Update" : "Submit";
         return (
             <Row>
                 <Col sm={3}></Col>
@@ -247,7 +295,7 @@ class TodoForm extends Component {
                         </FormGroup>
                         {' '}
                         <FormGroup>
-                            <DatePicker onChangeDeadline={this.onChangeDeadline} value={this.state.form.deadline} />
+                            <DatePicker onChange={this.onChangeDeadline} value={this.state.form.deadline} />
                         </FormGroup>
                         {' '}
                         <FormGroup>
@@ -267,8 +315,9 @@ class TodoForm extends Component {
 class Todo extends Component {
     constructor(props) {
         super(props);
-        this.state = { todos: [] };
+        this.state = { todos: [], todo: null };
         this.GetTodos = this.GetTodos.bind(this);
+        this.EditTodo = this.EditTodo.bind(this);
     }
 
     componentDidMount() {
@@ -277,12 +326,15 @@ class Todo extends Component {
 
     GetTodos(data) {
         if (data) {
-            this.setState({ todos: data });
+            this.setState({ todos: data, todo: null });
         }
         else {
             $.getJSON('api/todos')
-                .then((data) => this.setState({ todos: data }));
+                .then((data) => this.setState({ todos: data, todo: null }));
         }
+    }
+    EditTodo(data) {
+        this.setState({ todos: this.state.todos, todo: data });
     }
     render() {
         var aliases = [];
@@ -291,8 +343,8 @@ class Todo extends Component {
         });
         return (
             <Row>
-                <TodoForm getTodos={this.GetTodos} aliases={aliases} />
-                <TodoList getTodos={this.GetTodos} todos={this.state.todos} />
+                <TodoForm getTodos={this.GetTodos} todo={this.state.todo} aliases={aliases} />
+                <TodoList getTodos={this.GetTodos} editTodo={this.EditTodo} todos={this.state.todos} />
             </Row>
         );
     }
