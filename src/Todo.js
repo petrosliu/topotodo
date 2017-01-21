@@ -135,7 +135,7 @@ class TodoTable extends Component {
         else title = "P" + this.props.priority;
         return (
             <Row>
-                <Col xs={12}>{title}</Col>
+                <Col className={"TodoPriority TodoPriority-" + title} xs={12}>{title}</Col>
                 <Col xs={12}>
                     <Table hover striped>
                         <tbody>

@@ -4,20 +4,20 @@
 
 .TodoPriority{
     vertical-align: middle;
-    text-align: center;
     font-size: 15px;
-    min-height:30px;
-    min-width:30px;
+    font-weight: bold;
+    color: #5bc0de;
 }
 
-.TodoPriority.TodoPriority-1{
-    background: #f0ad4e;
+.TodoPriority.TodoPriority-CYCLE,
+.TodoPriority.TodoPriority-ERROR{
+    color: #d9534f;
 }
-.TodoPriority.TodoPriority-2{
-    background: #5cb85c;
+.TodoPriority.TodoPriority-P1{
+    color: #f0ad4e;
 }
-.TodoPriority.TodoPriority-3{
-    background: #5bc0de;
+.TodoPriority.TodoPriority-P2{
+    color: #5cb85c;
 }
 
 .TodoTask .TodoCheck,
