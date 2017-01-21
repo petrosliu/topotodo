@@ -9,7 +9,7 @@ var topo = function (todoList) {
         nextVertex[todo.id] = nextVertex[todo.id] || [];
         if (todo.prev.length) {
             todo.prev.forEach(function (prevId) {
-                nextVertex[prevId] ? nextVertex[prevId].push(todo.id) : [todo.id];
+                nextVertex[prevId] ? nextVertex[prevId].push(todo.id) : nextVertex[prevId] = [todo.id];
             });
             priority[todo.id] = -1;
         }

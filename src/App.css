@@ -1,4 +1,8 @@
 .Header {
   text-align: center;
-  color: #222;
+  height: 80px;
+}
+
+.Footer {
+  height: 80px;
 }

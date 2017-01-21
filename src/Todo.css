@@ -1,3 +1,7 @@
+*{
+    border-radius: 0 !important;
+}
+
 .TodoPriority{
     vertical-align: middle;
     text-align: center;
@@ -32,6 +36,7 @@
     width: 50px;
     font-family: 'Courier New', monospace;
 }
+
 .TodoTask .TodoText{
     vertical-align: middle;
     text-align: left;

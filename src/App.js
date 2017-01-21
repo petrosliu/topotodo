@@ -13,12 +13,22 @@ class Header extends Component {
   }
 }
 
+class Footer extends Component {
+  render() {
+    return (
+      <Row className="Footer">
+      </Row>
+    );
+  }
+}
+
 class App extends Component {
   render() {
     return (
       <Grid className="App" fluid>
         <Header />
         <Todo />
+        <Footer />
       </Grid>
     );
   }

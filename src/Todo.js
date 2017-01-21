@@ -103,7 +103,7 @@ class TodoPrev extends Component {
         return (
             <td className="TodoPrev">
                 {this.props.prev.map((p) =>
-                    <Label bsStyle={"primary"}>{p}</Label>
+                    <Label className={"pull-right"} bsStyle={"primary"}>{p}</Label>
                 )}
             </td>
         );
@@ -111,40 +111,19 @@ class TodoPrev extends Component {
 }
 
 class TodoTask extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { form: false };
-    }
-    componentWillMount() {
-        if (this.props.todo.done) {
-            this.setState({ form: false });
-        }
-    }
     render() {
         var todo = this.props.todo;
-        if (this.state.form) {
-            return (
-                <div className="TodoTask">
-
-                </div>
-            );
-        }
-        else {
-            return (
-                <tr className={"TodoTask" + (todo.done ? " Done" : "")}>
-                    <TodoCheck getTodos={this.props.getTodos} check={todo.done} todo={todo} />
-                    <TodoAlias done={todo.done} alias={todo.alias} todo={todo} />
-                    <TodoText text={todo.text} todo={todo} />
-                    <TodoDeadline deadline={todo.deadline} todo={todo} />
-                    <TodoPrev prev={todo.prevAlias} todo={todo} />
-                    <TodoEdit editTodo={this.props.editTodo} todo={todo} />
-                    <TodoDelete getTodos={this.props.getTodos} id={todo.id} todo={todo} />
-                    <td>
-                        <span>...</span>
-                    </td>
-                </tr>
-            );
-        }
+        return (
+            <tr className={"TodoTask" + (todo.done ? " Done" : "")}>
+                <TodoCheck getTodos={this.props.getTodos} check={todo.done} todo={todo} />
+                <TodoAlias done={todo.done} alias={todo.alias} todo={todo} />
+                <TodoText text={todo.text} todo={todo} />
+                <TodoDeadline deadline={todo.deadline} todo={todo} />
+                <TodoPrev prev={todo.prevAlias} todo={todo} />
+                <TodoEdit editTodo={this.props.editTodo} todo={todo} />
+                <TodoDelete getTodos={this.props.getTodos} id={todo.id} todo={todo} />
+            </tr>
+        );
     }
 }
 
