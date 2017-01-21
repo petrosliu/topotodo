@@ -7,7 +7,7 @@ class Header extends Component {
   render() {
     return (
       <Row className="Header">
-        <h1>topotodo</h1>
+        <h1>Topotodo</h1>
       </Row>
     );
   }
