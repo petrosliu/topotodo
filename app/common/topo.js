@@ -30,7 +30,7 @@ var topo = function (todoList) {
     }
 
     todoList.forEach(function (todo) {
-        todo.priority = todo.done ? maxPriority : priority[todo.id];
+        todo.priority = todo.done ? maxPriority + 1 : priority[todo.id];
     });
 
     todoList.sort(function (l, r) {
