@@ -19,7 +19,7 @@ var routes = function (app) {
     });
 
     app.post('/api/todos/:id', function (req, res) {
-        if (req.body.prev.constructor !== Array) {
+        if (!req.body.prev || req.body.prev.constructor !== Array) {
             req.body.prev = req.body.prev ? req.body.prev.split(/[^0-9a-z]+/) : [];
         }
         Todo.update(req.params.id, req.body, Util.callback(res));
