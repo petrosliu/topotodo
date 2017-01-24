@@ -7,10 +7,7 @@ import 'font-awesome/css/font-awesome.css';
 
 class TodoFa extends Component {
     render() {
-        if (this.props.icon) {
-            return (<i className={"fa fa-fw " + this.props.icon}></i>);
-        }
-        else return null;
+        return (<i className={"fa fa-fw " + this.props.icon}></i>);
     }
 }
 
@@ -65,12 +62,12 @@ class TodoText extends Component {
         if (text.startsWith("Deprecate ") || text.startsWith("Remove ") || text.startsWith("Delete ")) return "fa-minus-circle";
         if (text.startsWith("Test ")) return "fa-tasks";
         if (text.startsWith("Research ") || text.startsWith("Search ")) return "fa-search";
-        if (text.startsWith("Talk with ")) return "fa-comments-o";
+        if (text.startsWith("Talk with ") || text.startsWith("Meet with ")) return "fa-comments-o";
         return null;
     }
     render() {
         return (
-            <td className="TodoText"><TodoFa icon={this.handleIcon(this.props.text)} /> {this.props.text}</td>
+            <td className="TodoText"><TodoFa icon={this.handleIcon(this.props.text)} />{this.props.text}</td>
         );
     }
 }
