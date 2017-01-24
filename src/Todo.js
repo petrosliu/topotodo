@@ -5,6 +5,14 @@ import { Row, Col, Table, Label, Form, FormControl, Button, FormGroup } from 're
 import DatePicker from "react-bootstrap-date-picker";
 import 'font-awesome/css/font-awesome.css';
 
+class TodoFa extends Component {
+    render() {
+        if (this.props.icon) {
+            return (<i className={"fa fa-fw " + this.props.icon}></i>);
+        }
+        else return null;
+    }
+}
 
 class TodoCheck extends Component {
     constructor(props) {
@@ -33,7 +41,7 @@ class TodoCheck extends Component {
     render() {
         return <td className="TodoCheck" onClick={this.handleCheck}
             onMouseEnter={this.handleMouseEnter}
-            onMouseLeave={this.handleMouseLeave}><i className={"fa fa-fw " + (this.state.check ? "fa-check-circle-o" : "fa-circle-o")}></i></td>;
+            onMouseLeave={this.handleMouseLeave}><TodoFa icon={this.state.check ? "fa-check-circle-o" : "fa-circle-o"} /></td>;
     }
 }
 
@@ -46,9 +54,23 @@ class TodoAlias extends Component {
 }
 
 class TodoText extends Component {
+    constructor(props) {
+        super(props);
+        this.handleIcon = this.handleIcon.bind(this);
+    }
+    handleIcon(text) {
+        if (text.startsWith("Wait for ")) return "fa-hourglass-half";
+        if (text.startsWith("Read ")) return "fa-file-text";
+        if (text.startsWith("May ")) return "fa-coffee";
+        if (text.startsWith("Deprecate ") || text.startsWith("Remove ") || text.startsWith("Delete ")) return "fa-minus-circle";
+        if (text.startsWith("Test ")) return "fa-tasks";
+        if (text.startsWith("Research ") || text.startsWith("Search ")) return "fa-search";
+        if (text.startsWith("Talk with ")) return "fa-comments-o";
+        return null;
+    }
     render() {
         return (
-            <td className="TodoText">{this.props.text}</td>
+            <td className="TodoText"><TodoFa icon={this.handleIcon(this.props.text)} /> {this.props.text}</td>
         );
     }
 }
@@ -313,6 +335,7 @@ class Todo extends Component {
         }
     }
     EditTodo(data) {
+        window.scrollTo(0, 0);
         this.setState({ todos: this.state.todos, todo: data });
     }
     render() {

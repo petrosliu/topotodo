@@ -44,6 +44,11 @@
     font-size: 18px;
     width: 500px;
 }
+
+.TodoTask .TodoText .fa{
+    color: #555;
+}
+
 .TodoTask.Done .TodoText{
     font-weight: normal;
 }
