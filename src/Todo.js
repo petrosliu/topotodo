@@ -279,9 +279,9 @@ class TodoForm extends Component {
         var todo = this.props.todo;
         var buttonText = todo ? "Update" : "Submit";
         return (
-            <Row>
+            <Row className="TodoForm">
                 <Col sm={3}></Col>
-                <Col sm={6} className="TodoForm">
+                <Col sm={6}>
                     <Form horizontal onSubmit={this.handleSubmit}>
                         <FormGroup>
                             <FormControl type="text" placeholder="Todo" onChange={this.onChangeText} value={this.state.form.text} />
@@ -332,7 +332,6 @@ class Todo extends Component {
         }
     }
     EditTodo(data) {
-        window.scrollTo(0, 0);
         this.setState({ todos: this.state.todos, todo: data });
     }
     render() {
