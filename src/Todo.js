@@ -203,7 +203,7 @@ class TodoForm extends Component {
         }
         if (this.props.todo) {
             state.form.text = this.props.todo.text;
-            state.form.prev = this.props.todo.prev.join(',');
+            state.form.prev = this.props.todo.prevAlias.join(',');
             state.form.dealline = this.props.todo.dealline;
         }
 
