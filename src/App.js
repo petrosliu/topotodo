@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Todo from './Todo';
 import { Grid, Row } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.css';
 
 class Header extends Component {
   render() {

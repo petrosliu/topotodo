@@ -293,7 +293,7 @@ class TodoForm extends Component {
                         </FormGroup>
                         {' '}
                         <FormGroup>
-                            <DatePicker onChange={this.onChangeDeadline} value={this.state.form.deadline} />
+                            <DatePicker onChange={this.onChangeDeadline} value={this.state.form.deadline} showClearButton={false} showTodayButton />
                         </FormGroup>
                         {' '}
                         <FormGroup>
